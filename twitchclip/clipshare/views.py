@@ -25,4 +25,4 @@ def home(request):
     return render(request, 'clipshare/home.html', context)
 
 def about(request):
-    return render(request, 'clipshare/about.html')
+    return render(request, 'clipshare/about.html', {'title': 'About'})
