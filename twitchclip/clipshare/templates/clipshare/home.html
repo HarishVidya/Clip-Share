@@ -3,7 +3,14 @@
 {% block content %}
     {% for post in posts %}
         <h1>{{ post.title }}</h1>
-        <p>By {{post.author}} on {{post.date}}</p>
+        <p>By {{post.author}} on {{post.date_posted}}</p>
         <p>{{post.content}}</P>
+        <p>{{post.clip_link}}</P>
+            <iframe
+            src="https://clips.twitch.tv/embed?clip=TemperedSparklyPterodactylWow-PsYVyuazvZIuFGWW&parent=localhost"
+            height="340"
+            width="600"
+            allowfullscreen>
+        </iframe>     
     {% endfor %}
 {% endblock content %}

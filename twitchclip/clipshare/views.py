@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Post
 
 # Create your views here.
 
@@ -7,20 +8,22 @@ posts = [
         'author': 'Harish',
         'title': 'Insane Trickshot',
         'content': '360 no scope',
-        'date': 'January 4, 2023'
+        'date_posted': 'January 4, 2023',
+        'clip_link': 'ssdfkjsdfsd'
     },
     {
         'author': 'John',
         'title': 'Fortnite Clip',
         'content': '1v4 clutch',
-        'date': 'December 12, 2022'
+        'date_posted': 'December 12, 2022',
+        'clip_link': 'ssdfkjsdfsd'
     }
 ]
 
 
 def home(request):
     context = {
-        'posts': posts
+        'posts': Post.objects.all()
     }
     return render(request, 'clipshare/home.html', context)
 
