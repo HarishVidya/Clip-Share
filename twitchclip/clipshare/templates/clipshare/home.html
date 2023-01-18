@@ -2,6 +2,7 @@
 
 {% block content %}
     {% for post in posts %}
+        {% comment %} <img class="rounded-circle article-img" scr="{{ post.author.profile.image.url }}" {% endcomment %}
         <h1>{{ post.title }}</h1>
         <p>By {{post.author}} on {{post.date_posted}}</p>
         <p>{{post.content}}</P>
