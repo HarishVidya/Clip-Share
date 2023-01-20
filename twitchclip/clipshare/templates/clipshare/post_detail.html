@@ -1,0 +1,22 @@
+{% extends "clipshare/base.html" %}
+
+{% block content %}
+    
+    {% comment %} <img class="rounded-circle article-img" scr="{{ post.author.profile.image.url }}" {% endcomment %}
+    <h1>{{ object.title }}</h1>
+    <p>By {{object.author}} on {{object.date_posted}}</p>
+    <p>{{object.content}}</P>
+    <p>{{object.clip_link}}</P>
+    <iframe
+        src="https://clips.twitch.tv/embed?clip=TemperedSparklyPterodactylWow-PsYVyuazvZIuFGWW&parent=127.0.0.1&parent=localhost"
+        height="340"
+        width="600"
+        allowfullscreen>
+    </iframe>
+    {% if object.author == user %}
+        <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+        </div>
+    {% endif %}     
+{% endblock content %}
