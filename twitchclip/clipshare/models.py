@@ -10,6 +10,7 @@ class Post(models.Model):
     content = models.TextField()
     clip_link = models.CharField(max_length=250)
     date_posted = models.DateTimeField(default=timezone.now)
+    likes = models.ManyToManyField(User, related_name='likes', blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):

@@ -14,6 +14,15 @@
             width="600"
             allowfullscreen>
         </iframe>
+        
+    <form action="{% url 'post-like' %}" method="post">
+        {% csrf_token %}
+        {% if is_liked %}
+            <button type="submit" name="post_id" value="{{ object.id }}" class="btn btn-primary">Liked</button>
+        {% else %}
+            <button type="submit" name="post_id" value="{{ object.id }}" class="btn btn-primary-info">Like</button>
+        {% endif %}
+    </form>
     {% if object.author == user %}
         <div>
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -33,6 +33,39 @@ class UserPostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+
+    # def is_liked(self, request, *args, **kwargs):
+    #     is_liked_ = False
+    #     post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    #     if post.likes.filter(id=request.user.id).exists():
+    #         post.likes.remove(request.user)
+    #         is_liked_ = False
+    #     else:
+    #         post.likes.add(request.user)
+    #         is_liked_ = True
+    #     return is_liked_
+
+    def get_context_data(self, **kwargs):
+        is_liked_ = False
+        post = self.object
+        if post.likes.filter(id=self.request.user.id).exists():
+            is_liked_ = True
+        else:
+            is_liked_ = False
+        context = super().get_context_data(**kwargs)
+        context['is_liked'] = is_liked_
+        return context 
+
+def post_like(request):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    is_liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        is_liked = False
+    else:
+        post.likes.add(request.user)
+        is_liked = True
+    return HttpResponseRedirect(post.get_absolute_url())
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
