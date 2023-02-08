@@ -18,4 +18,11 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("post-detail", kwargs={"pk": self.pk})
+
+    def total_likes(self):
+        return self.likes.count()
+
+    def save(self):
+        self.clip_link = self.clip_link[33:]
+        return super().save()
     

@@ -3,30 +3,28 @@
 {% block content %}
     
     {% comment %} <img class="rounded-circle article-img" scr="{{ post.author.profile.image.url }}" {% endcomment %}
-    <h1><a class="article-title" href="{% url 'post-detail' object.id %}">{{ object.title }}</a></h1>
+    <div id="entire">
+        <h1><a class="article-title" href="{% url 'post-detail' object.id %}">{{ object.title }}</a></h1>
         <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
         <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
         <p>{{object.content}}</P>
-        <p>{{object.clip_link}}</P>
             <iframe
-            src="https://clips.twitch.tv/embed?clip=TemperedSparklyPterodactylWow-PsYVyuazvZIuFGWW&parent=127.0.0.1&parent=localhost"
+            src="https://clips.twitch.tv/embed?clip={{object.clip_link}}&parent=127.0.0.1&parent=localhost"
             height="340"
             width="600"
             allowfullscreen>
         </iframe>
-        
-    <form action="{% url 'post-like' %}" method="post">
-        {% csrf_token %}
-        {% if is_liked %}
-            <button type="submit" name="post_id" value="{{ object.id }}" class="btn btn-primary">Liked</button>
-        {% else %}
-            <button type="submit" name="post_id" value="{{ object.id }}" class="btn btn-primary-info">Like</button>
-        {% endif %}
-    </form>
+    </div>
+    
+    <div is="like-section">
+        {% include "clipshare/like_section.html" %}
+    </div>
+    
     {% if object.author == user %}
         <div>
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
             <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
         </div>
-    {% endif %}     
+    {% endif %}
+         
 {% endblock content %}

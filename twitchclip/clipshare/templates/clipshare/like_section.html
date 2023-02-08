@@ -1,0 +1,14 @@
+<div id="like">
+    <p>{{ total_likes }} Like{{ total_likes|pluralize }}</p>
+    
+        {% if request.user.is_authenticated %}
+        <form hx-post="{% url "post-like" %}" hx-target="#like">
+            {% csrf_token %}
+            {% if is_liked %}
+                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary">Liked</button>
+            {% else %}
+                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-outline-info">Like</button>
+            {% endif %}
+        {% endif %}
+        </form>
+</div>

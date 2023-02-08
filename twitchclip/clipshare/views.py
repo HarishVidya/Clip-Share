@@ -1,8 +1,11 @@
+from .models import Post
+
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -21,6 +24,11 @@ class PostListView(ListView):
     ordering = ['-date_posted']
     paginate_by = 5
 
+    def get_template_names(self):
+        if self.request.htmx:
+            return 'clipshare/post_list.html'
+        return 'clipshare/home.html'
+
 class UserPostListView(ListView):
     model = Post
     template_name = 'clipshare/user_posts.html'
@@ -34,17 +42,6 @@ class UserPostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
-    # def is_liked(self, request, *args, **kwargs):
-    #     is_liked_ = False
-    #     post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    #     if post.likes.filter(id=request.user.id).exists():
-    #         post.likes.remove(request.user)
-    #         is_liked_ = False
-    #     else:
-    #         post.likes.add(request.user)
-    #         is_liked_ = True
-    #     return is_liked_
-
     def get_context_data(self, **kwargs):
         is_liked_ = False
         post = self.object
@@ -54,6 +51,7 @@ class PostDetailView(DetailView):
             is_liked_ = False
         context = super().get_context_data(**kwargs)
         context['is_liked'] = is_liked_
+        context['total_likes'] = post.total_likes()
         return context 
 
 def post_like(request):
@@ -65,6 +63,15 @@ def post_like(request):
     else:
         post.likes.add(request.user)
         is_liked = True
+    context = {
+        'post': post,
+        'is_liked': is_liked,
+        "total_likes": post.total_likes()
+    }
+    if request.htmx:
+        return render(request, 'clipshare/like_section.html', context)
+   
+    print("hi")
     return HttpResponseRedirect(post.get_absolute_url())
 
 class PostCreateView(LoginRequiredMixin, CreateView):

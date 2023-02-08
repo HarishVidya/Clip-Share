@@ -1,21 +1,8 @@
 {% extends "clipshare/base.html" %}
 
 {% block content %}
-    {% for post in posts %}
-        {% comment %} <img class="rounded-circle article-img" scr="{{ post.author.profile.image.url }}" {% endcomment %}
-        <h1><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h1>
-        <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{post.author}}</a>
-        <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-        <p>{{post.content}}</P>
-        <p>{{post.clip_link}}</P>
-            <iframe
-            src="https://clips.twitch.tv/embed?clip=TemperedSparklyPterodactylWow-PsYVyuazvZIuFGWW&parent=127.0.0.1&parent=localhost"
-            height="340"
-            width="600"
-            allowfullscreen>
-        </iframe>     
-    {% endfor %}
-    <div>
+{% include "clipshare/post_list.html" %}
+    {% comment %} <div>
     {% if is_paginated %}
 
         {% if page_obj.has_previous %}
@@ -36,5 +23,5 @@
             <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
         {% endif %}
     {% endif %}
-    </div>
+    </div> {% endcomment %}
 {% endblock content %}
