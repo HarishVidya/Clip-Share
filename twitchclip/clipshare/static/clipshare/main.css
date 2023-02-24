@@ -1,16 +1,52 @@
-.article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
-  }
-  
-.account-img {
-    height: 125px;
-    width: 125px;
-    margin-right: 20px;
-    margin-bottom: 16px;
-  }
-  
-  .account-heading {
-    font-size: 2.5rem;
-  }
+body {
+  font-family: "Nunito";
+  background: rgb(53,58,64);
+  background: linear-gradient(90deg, rgba(53,58,64,1) 0%, rgba(131,58,90,1) 50%, rgba(53,58,64,1) 100%);
+}
+
+.navbar-brand {
+  font-size: 24px;
+  font-weight: 600;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.navbar-custom {
+  background-color: #000000;
+}
+
+.nav-link {
+  font-weight: 600;
+}
+
+/* a.nav-link:hover {
+  color: 
+} */
+
+.post-list {
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.article-title {
+  color: white;
+  text-decoration: none; 
+}
+
+.author-name {
+  color: white;
+  text-decoration: none;
+}
+
+.date-posted {
+  font-weight: 600;
+  color: black;
+  padding-left: 0.5%;
+}
+
+.post-content { 
+  color: white;
+  text-decoration: none;
+}
+
+

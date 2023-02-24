@@ -25,4 +25,27 @@ class Post(models.Model):
     def save(self):
         self.clip_link = self.clip_link[33:]
         return super().save()
+
+
+# class Comment(models.Model):
+#     author = models.ForeignKey(User, on_delete=models.CASCADE)
+#     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#     content = models.TextField()
+#     date_posted = models.DateTimeField(default=timezone.now)
+#     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+
+#     def __str__(self):
+#         return str(self.author) + ' comment ' + str(self.content)
+
+#     @property
+#     def children(self):
+#         return Comment.objects.filter(parent=self).reverse()
+
+#     @property
+#     def is_parent(self):
+#         if self.parent is None:
+#             return True
+
+    
+
     

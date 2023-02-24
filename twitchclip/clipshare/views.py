@@ -10,11 +10,11 @@ from django.http import JsonResponse
 # Create your views here.
 
 
-def home(request):
-    context = {
-        'posts': Post.objects.all()
-    }
-    return render(request, 'clipshare/home.html', context)
+# def home(request):
+#     context = {
+#         'posts': Post.objects.all()
+#     }
+#     return render(request, 'clipshare/home.html', context)
 
 
 class PostListView(ListView):

@@ -1,5 +1,6 @@
-{% for post in posts %}
 
+{% for post in posts %}
+<div class="post-list text-center">
 {% if forloop.last and page_obj.has_next %}
 
 <div hx-get="{% url 'clipshare-home' %}?page={{ page_obj.number|add:1 }}" hx-trigger="revealed" hx-swap="afterend" hx-target="this">
@@ -8,14 +9,20 @@
 {% endif %}
     {% comment %} <img class="rounded-circle article-img" scr="{{ post.author.profile.image.url }}" {% endcomment %}
     <h1><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h1>
-    <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{post.author}}</a>
-    <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-    <p>{{post.content}}</P>
+    <a class="author-name mr-2" href="{% url 'user-posts' post.author.username %}">{{post.author}}</a>
+    <small class="date-posted">{{ post.date_posted|date:"F d, Y" }}</small>
+    <p class="post-content">{{post.content}}</p>
         <iframe
+        class="post-clip"
         src="https://clips.twitch.tv/embed?clip={{post.clip_link}}&parent=127.0.0.1&parent=localhost"
         height="340"
         width="600"
         allowfullscreen>
     </iframe>
-</div>    
+    <div is="like-section">
+        <p>{{ post.likes.count }} Like{{ post.likes.count|pluralize }}</p>  
+    </div> 
+</div>
+   
 {% endfor %}
+<div>
