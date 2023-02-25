@@ -1,7 +1,5 @@
 body {
   font-family: "Nunito";
-  background: rgb(53,58,64);
-  background: linear-gradient(90deg, rgba(53,58,64,1) 0%, rgba(131,58,90,1) 50%, rgba(53,58,64,1) 100%);
 }
 
 .navbar-brand {
@@ -29,12 +27,10 @@ body {
 }
 
 .article-title {
-  color: white;
   text-decoration: none; 
 }
 
 .author-name {
-  color: white;
   text-decoration: none;
 }
 
@@ -45,7 +41,6 @@ body {
 }
 
 .post-content { 
-  color: white;
   text-decoration: none;
 }
 

@@ -3,6 +3,8 @@ from .models import Post
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.db.models import Prefetch
+from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.template.loader import render_to_string
 from django.http import JsonResponse
@@ -27,7 +29,18 @@ class PostListView(ListView):
     def get_template_names(self):
         if self.request.htmx:
             return 'clipshare/post_list.html'
-        return 'clipshare/home.html'
+        return 'clipshare/home.html'    
+
+    def get_context_data(self, **kwargs):
+        context = super(PostListView, self).get_context_data(**kwargs)
+        liked_posts = []
+        for post in context['posts']:
+            print(post.id)
+            if post.likes.filter(id=self.request.user.id).exists():
+                liked_posts.append(post)
+        context['liked_posts'] = liked_posts
+        print(context)
+        return context 
 
 class UserPostListView(ListView):
     model = Post
@@ -54,6 +67,7 @@ class PostDetailView(DetailView):
         context['total_likes'] = post.total_likes()
         return context 
 
+@login_required
 def post_like(request):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
     is_liked = False
@@ -71,7 +85,7 @@ def post_like(request):
     if request.htmx:
         return render(request, 'clipshare/like_section.html', context)
    
-    print("hi")
+    print("htmx not working")
     return HttpResponseRedirect(post.get_absolute_url())
 
 class PostCreateView(LoginRequiredMixin, CreateView):
